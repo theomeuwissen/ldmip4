@@ -19,5 +19,5 @@ ldmip4.mrk  (marker genotype file. 2 lines per genotyped individual: IDindiv all
 Usage: ./ldmip4
 
 
-## _please do not distribute ldmip4 without written consent of the author Theo Meuwissen (Email: theo.meuwissen@nmbu.no)_ 
+# _Report problems to theo.meuwissen@nmbu.no. Do not distribute ldmip4 without written consent of the author._ 
 
