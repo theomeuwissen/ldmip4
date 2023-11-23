@@ -1,0 +1,36 @@
+##> INPUTS-BLOCK IS COMPULSORY
+&INPUTS                      !when inputs below are omitted, default values will be used (where possible)
+Nloc=937                     !number of SNPs
+Istart=1                     !start reading genotypes from Istart's position (e.g. when running blocks of SNPs or single chrom in multi-chrom data)
+input_phased=0                ! =1 means phased input genotypes (paternal haplotype 1st line; maternal haplotype 2nd line)
+Nanim=1119                      !number of animals in pedigree
+genot_err_rate=0.001         !genotype error rate (=0.0 => lamip crashes if genotype inconsistent with pedigree)
+prob_of_imputation=0.95      !if genotype probability > 'prob_of_imputation' : genotype is assumed known and reported as such
+nthreads=1                   !sets number of threads (=0 => computer decides nthreads)
+exp_no_of_recs=1           !recomb. rate of entire segment [ <=0: SNPs independent; <0: still estimate segregation indicators; >0: per_bracket_recomb=exp_no_of_recs/(Nloc-1) )
+iteration=0                 !=1: reads 'lamip.out' as input from previous run of LAMIP (iteration may improve results; or you may fix phases in founder genotypes)
+file_w_frq="F"               !="F" : lamip estimates base-frequencies; ="my_file_name" : base frequencies are read from "my_file_name" 
+/                            !(formated= as in lamip.frq outputfile: read(3,*)ilocus,jallele,freq(ilocus,jallele,1:max(ngroups,1))) 
+
+
+
+
+# INPUT DATA FILES REQUIRED:
+#1: lamip.ped: pedigree-file (3 columns: ID sireID damID) sorted from old to young IDs are consecutive: 1,2,3,4...
+Note: unknown sire dam = 0 or -IDgroup (IDgroup is genetic group number)
+Note2: sire and dam are either both unknown or both known
+
+
+#2: lamip.mrk: SNP genotype files (allele-codes => 1 or 2; missing 0)
+# two lines per genotyped animal:
+ID SNP1 SNP2 SNP3....  (where SNP3 = paternal allele-code at locus 3)
+ID SNP1 SNP2 SNP3....  (where SNP3 = maternal allele-code at locus 3)
+Note: no need to phase the genotypes nor sort them paternal/maternal
+
+#2b: if LAMIP cannot find 'lamip.mrk' file, then it will look for 'plink.ped' which is a PLINK '12'-coded .ped file
+
+
+
+#NOTES:
+2. computertime/memory will be saved by omitting ungenotyped descendants of genotyped animals (unless some of their descendants are genotyped). The relationships of these omitted descendants can be added afterwards by the usual tabular rules (or to the GLAinverse using Henderson's rules for Ainverse) 
+3. more distant ancestors of the genotyped animals will have a relationship matrix like in the pedigree A-matrix. Their relationships can also be obtained by single-step methods (Legarra et al. 2009, JDS).
